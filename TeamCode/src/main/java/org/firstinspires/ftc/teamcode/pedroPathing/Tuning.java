@@ -21,6 +21,7 @@ import com.pedropathing.telemetry.SelectableOpMode;
 import com.pedropathing.util.*;
 import com.qualcomm.robotcore.eventloop.opmode.*;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,8 +74,9 @@ public class Tuning extends SelectableOpMode {
 
     @Override
     public void onSelect() {
+        follower = Constants.createFollower(hardwareMap);
+        follower.setStartingPose(new Pose());
         if (follower == null) {
-            follower = Constants.createFollower(hardwareMap);
             ConfigurablesManager.INSTANCE.init(hardwareMap.appContext);
         }
 
@@ -353,7 +355,6 @@ class ForwardVelocityTuner extends OpMode {
      */
     @Override
     public void loop() {
-
         if (gamepad1.bWasPressed()) {
             stopRobot();
             requestOpModeStop();
@@ -369,7 +370,8 @@ class ForwardVelocityTuner extends OpMode {
                 stopRobot();
             } else {
                 follower.setTeleOpDrive(1,0,0,true);
-                double currentVelocity = Math.abs(follower.getVelocity().dot(new Vector(1, 0)));
+                //double currentVelocity = Math.abs(follower.getVelocity().getXComponent());
+                double currentVelocity = Math.abs(follower.poseTracker.getLocalizer().getVelocity().getX());
                 velocities.add(currentVelocity);
                 velocities.remove(0);
             }
@@ -383,7 +385,13 @@ class ForwardVelocityTuner extends OpMode {
             telemetryM.debug("Forward Velocity: " + average);
             telemetryM.debug("\n");
             telemetryM.debug("Press A to set the Forward Velocity temporarily (while robot remains on).");
+
+            for (int i = 0; i < velocities.size(); i++) {
+                telemetry.addData(String.valueOf(i), velocities.get(i));
+            }
+
             telemetryM.update(telemetry);
+            telemetry.update();
 
             if (gamepad1.aWasPressed()) {
                 follower.setXMovement(average);
@@ -664,14 +672,14 @@ class LateralZeroPowerAccelerationTuner extends OpMode {
         Vector heading = new Vector(1.0, follower.getPose().getHeading() - Math.PI / 2);
         if (!end) {
             if (!stopping) {
-                if (follower.getVelocity().dot(heading) > VELOCITY) {
-                    previousVelocity = follower.getVelocity().dot(heading);
+                if (Math.abs(follower.getVelocity().dot(heading)) > VELOCITY) {
+                    previousVelocity = Math.abs(follower.getVelocity().dot(heading));
                     previousTimeNano = System.nanoTime();
                     stopping = true;
                     stopRobot();
                 }
             } else {
-                double currentVelocity = follower.getVelocity().dot(heading);
+                double currentVelocity = Math.abs(follower.getVelocity().dot(heading));
                 accelerations.add((currentVelocity - previousVelocity) / ((System.nanoTime() - previousTimeNano) / Math.pow(10.0, 9)));
                 previousVelocity = currentVelocity;
                 previousTimeNano = System.nanoTime();

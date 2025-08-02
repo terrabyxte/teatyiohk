@@ -574,7 +574,7 @@ class ForwardZeroPowerAccelerationTuner extends OpMode {
                     previousVelocity = follower.getVelocity().dot(heading);
                     previousTimeNano = System.nanoTime();
                     stopping = true;
-                    stopRobot();
+                    follower.setTeleOpDrive(0,0,0,true);
                 }
             } else {
                 double currentVelocity = follower.getVelocity().dot(heading);
@@ -676,7 +676,7 @@ class LateralZeroPowerAccelerationTuner extends OpMode {
                     previousVelocity = Math.abs(follower.getVelocity().dot(heading));
                     previousTimeNano = System.nanoTime();
                     stopping = true;
-                    stopRobot();
+                    follower.setTeleOpDrive(0,0,0,true);
                 }
             } else {
                 double currentVelocity = Math.abs(follower.getVelocity().dot(heading));

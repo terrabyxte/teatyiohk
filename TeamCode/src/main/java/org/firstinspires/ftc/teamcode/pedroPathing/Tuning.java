@@ -7,11 +7,12 @@ import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.follower;
 import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.stopRobot;
 import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.telemetryM;
 
-import com.bylazar.ftcontrol.panels.Panels;
-import com.bylazar.ftcontrol.panels.configurables.ConfigurablesManager;
-import com.bylazar.ftcontrol.panels.configurables.annotations.Configurable;
-import com.bylazar.ftcontrol.panels.configurables.annotations.IgnoreConfigurable;
-import com.bylazar.ftcontrol.panels.integration.TelemetryManager;
+import com.bylazar.configurables.PanelsConfigurables;
+import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.configurables.annotations.IgnoreConfigurable;
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
+import com.bylazar.configurables.GlobalConfigurables;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.ftc.Drawing;
 import com.pedropathing.geometry.*;
@@ -21,7 +22,6 @@ import com.pedropathing.telemetry.SelectableOpMode;
 import com.pedropathing.util.*;
 import com.qualcomm.robotcore.eventloop.opmode.*;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class Tuning extends SelectableOpMode {
     public static Follower follower;
 
     @IgnoreConfigurable
-    static PoseHistory PoseHistory;
+    static PoseHistory poseHistory;
 
     @IgnoreConfigurable
     static TelemetryManager telemetryM;
@@ -76,18 +76,20 @@ public class Tuning extends SelectableOpMode {
     public void onSelect() {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(new Pose());
+
+
         if (follower == null) {
-            ConfigurablesManager.INSTANCE.init(hardwareMap.appContext);
+            PanelsConfigurables.INSTANCE.refreshClass(Tuning.class);
         }
 
-        PoseHistory = follower.getPoseHistory();
-        telemetryM = Panels.getTelemetry();
+        poseHistory = follower.getPoseHistory();
+        telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
     }
 
     @Override
     public void onLog(List<String> lines) {
-        Panels.getTelemetry().debug(lines.toArray(new String[0]));
-        Panels.getTelemetry().update();
+        PanelsTelemetry.INSTANCE.getTelemetry().debug(lines.toArray(new String[0]));
+        PanelsTelemetry.INSTANCE.getTelemetry().update();
     }
 
     public static void drawCurrent() {
@@ -96,7 +98,7 @@ public class Tuning extends SelectableOpMode {
     }
 
     public static void drawCurrentAndHistory() {
-        Drawing.drawPoseHistory(PoseHistory);
+        Drawing.drawPoseHistory(poseHistory);
         drawCurrent();
     }
 

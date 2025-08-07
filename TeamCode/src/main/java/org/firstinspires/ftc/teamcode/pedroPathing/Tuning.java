@@ -79,7 +79,7 @@ public class Tuning extends SelectableOpMode {
 
 
         if (follower == null) {
-            PanelsConfigurables.INSTANCE.refreshClass(Tuning.class);
+            PanelsConfigurables.INSTANCE.refreshClass(this);
         }
 
         poseHistory = follower.getPoseHistory();

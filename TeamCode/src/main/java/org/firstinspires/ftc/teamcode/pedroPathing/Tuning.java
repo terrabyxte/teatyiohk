@@ -74,27 +74,48 @@ public class Tuning extends SelectableOpMode {
 
     @Override
     public void onSelect() {
-        follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(new Pose());
-
-
         if (follower == null) {
+            follower = Constants.createFollower(hardwareMap);
             PanelsConfigurables.INSTANCE.refreshClass(this);
+        } else {
+            follower = Constants.createFollower(hardwareMap);
         }
 
+        follower.setStartingPose(new Pose());
+
         poseHistory = follower.getPoseHistory();
-        telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
+
+        try {
+            telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
+        } catch (Exception e) {
+            throw new RuntimeException(e + " telemetryM failed to initialize");
+        }
     }
 
     @Override
     public void onLog(List<String> lines) {
-        PanelsTelemetry.INSTANCE.getTelemetry().debug(lines.toArray(new String[0]));
-        PanelsTelemetry.INSTANCE.getTelemetry().update();
+//        try {
+//            if (!lines.isEmpty()) {
+//                telemetryM.debug(lines.toArray(new String[0]));
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException(e + " telemetryM failed to log");
+//        }
+//
+//        try {
+//            telemetryM.update();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e + " telemetryM failed to update");
+//        }
     }
 
     public static void drawCurrent() {
-        Drawing.drawRobot(follower.getPose());
-        Drawing.sendPacket();
+        try {
+            Drawing.drawRobot(follower.getPose());
+            Drawing.sendPacket();
+        } catch (Exception e) {
+            throw new RuntimeException("Drawing failed " + e);
+        }
     }
 
     public static void drawCurrentAndHistory() {

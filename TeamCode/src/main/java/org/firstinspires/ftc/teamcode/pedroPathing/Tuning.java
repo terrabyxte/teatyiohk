@@ -85,28 +85,14 @@ public class Tuning extends SelectableOpMode {
 
         poseHistory = follower.getPoseHistory();
 
-        try {
-            telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
-        } catch (Exception e) {
-            throw new RuntimeException(e + " telemetryM failed to initialize");
-        }
+        telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
     }
 
     @Override
     public void onLog(List<String> lines) {
-//        try {
-//            if (!lines.isEmpty()) {
-//                telemetryM.debug(lines.toArray(new String[0]));
-//            }
-//        } catch (Exception e) {
-//            throw new RuntimeException(e + " telemetryM failed to log");
-//        }
-//
-//        try {
-//            telemetryM.update();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e + " telemetryM failed to update");
-//        }
+        if (!lines.isEmpty())
+            telemetryM.debug(lines.toArray(new String[0]));
+        telemetryM.update();
     }
 
     public static void drawCurrent() {

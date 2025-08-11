@@ -12,7 +12,6 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.configurables.annotations.IgnoreConfigurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
-import com.bylazar.configurables.GlobalConfigurables;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.ftc.Drawing;
 import com.pedropathing.geometry.*;
@@ -89,11 +88,7 @@ public class Tuning extends SelectableOpMode {
     }
 
     @Override
-    public void onLog(List<String> lines) {
-        if (!lines.isEmpty())
-            telemetryM.debug(lines.toArray(new String[0]));
-        telemetryM.update();
-    }
+    public void onLog(List<String> lines) {}
 
     public static void drawCurrent() {
         try {

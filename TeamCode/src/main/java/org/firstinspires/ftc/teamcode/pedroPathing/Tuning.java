@@ -1102,7 +1102,7 @@ class Triangle extends OpMode {
     public void start() {
         follower.setStartingPose(startPose);
 
-        triangle = Follower.pathBuilder()
+        triangle = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, interPose))
                 .setLinearHeadingInterpolation(startPose.getHeading(), interPose.getHeading())
                 .addPath(new BezierLine(interPose, endPose))

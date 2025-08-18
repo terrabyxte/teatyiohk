@@ -26,8 +26,8 @@ public class Constants {
             .mass(5);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
-            .xMovement(57.8741)
-            .yMovement(52.295)
+            .xVelocity(57.8741)
+            .yVelocity(52.295)
             .maxPower(1)
             .leftFrontMotorName("lf")
             .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)

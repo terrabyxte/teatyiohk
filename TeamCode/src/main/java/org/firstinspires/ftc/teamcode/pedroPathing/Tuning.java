@@ -398,7 +398,7 @@ class ForwardVelocityTuner extends OpMode {
             telemetry.update();
 
             if (gamepad1.aWasPressed()) {
-                follower.setXMovement(average);
+                follower.setXVelocity(average);
                 String message = "XMovement: " + average;
                 changes.add(message);
             }
@@ -498,7 +498,7 @@ class LateralVelocityTuner extends OpMode {
             telemetryM.update(telemetry);
 
             if (gamepad1.aWasPressed()) {
-                follower.setYMovement(average);
+                follower.setYVelocity(average);
                 String message = "YMovement: " + average;
                 changes.add(message);
             }

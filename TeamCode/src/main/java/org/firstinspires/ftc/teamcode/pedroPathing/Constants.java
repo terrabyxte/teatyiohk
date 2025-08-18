@@ -37,20 +37,20 @@ public class Constants {
             .motorCachingThreshold(0.01)
             .useBrakeModeInTeleOp(false);
 
-    public static PinpointConstants pinpointConstants = new PinpointConstants()
+    public static PinpointV2Constants pinpointConstants = new PinpointV2Constants()
             .forwardPodY(-5)
             .strafePodX(0.5)
             .distanceUnit(DistanceUnit.INCH)
             .hardwareMapName("pinpoint")
-            .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
-            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED);
+            .encoderResolution(GoBildaPinpointDriverV2.GoBildaOdometryPods.goBILDA_4_BAR_POD)
+            .forwardEncoderDirection(GoBildaPinpointDriverV2.EncoderDirection.REVERSED);
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 3, 1);
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
                 .mecanumDrivetrain(driveConstants)
-                .pinpointLocalizer(pinpointConstants)
+                .setLocalizer(new PinpointV2Localizer(hardwareMap, pinpointConstants))
                 .pathConstraints(pathConstraints)
                 .build();
     }

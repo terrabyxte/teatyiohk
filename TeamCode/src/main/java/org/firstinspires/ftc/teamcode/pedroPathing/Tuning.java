@@ -7,11 +7,11 @@ import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.follower;
 import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.stopRobot;
 import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.telemetryM;
 
-import com.bylazar.configurables.PanelsConfigurables;
-import com.bylazar.configurables.annotations.Configurable;
-import com.bylazar.configurables.annotations.IgnoreConfigurable;
-import com.bylazar.telemetry.PanelsTelemetry;
-import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.panels.configurables.annotations.Configurable;
+import com.pedropathing.panels.configurables.annotations.IgnoreConfigurable;
+import com.pedropathing.panels.configurables.PanelsConfigurables;
+import com.pedropathing.panels.telemetry.PanelsTelemetry;
+import com.pedropathing.panels.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.ftc.Drawing;
 import com.pedropathing.geometry.*;

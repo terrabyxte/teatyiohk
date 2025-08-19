@@ -17,31 +17,12 @@ apply from: '../build.dependencies.gradle'
 
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
-    compileSdk 35
-
-    //ADD THIS
-
-    defaultConfig {
-        minSdk 24
-    }
-    //
 
     packagingOptions {
         jniLibs.useLegacyPackaging true
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-        coreLibraryDesugaringEnabled true
     }
 }
 
 dependencies {
     implementation project(':FtcRobotController')
-    annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
-
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7.1'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.0.0'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 }

@@ -769,9 +769,7 @@ class TranslationalTuner extends OpMode {
                 follower.followPath(forwards);
             }
         }
-        
-        for (String i : follower.debug())
-            telemetryM.debug(i);
+
         telemetryM.debug("Push the robot laterally to test the Translational PIDF(s).");
         telemetryM.update(telemetry);
     }
@@ -842,8 +840,6 @@ class HeadingTuner extends OpMode {
             }
         }
 
-        for (String i : follower.debug())
-            telemetryM.debug(i);
         telemetryM.debug("Turn the robot manually to test the Heading PIDF(s).");
         telemetryM.update(telemetry);
     }
@@ -912,8 +908,6 @@ class DriveTuner extends OpMode {
             }
         }
 
-        for (String i : follower.debug())
-            telemetryM.debug(i);
         telemetryM.debug("Driving forward?: " + forward);
         telemetryM.update(telemetry);
     }
@@ -976,8 +970,6 @@ class LineTest extends OpMode {
             }
         }
 
-        for (String i : follower.debug())
-            telemetryM.debug(i);
         telemetryM.debug("Driving Forward?: " + forward);
         telemetryM.update(telemetry);
     }

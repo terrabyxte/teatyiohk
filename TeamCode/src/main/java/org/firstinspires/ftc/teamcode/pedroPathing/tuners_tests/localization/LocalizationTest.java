@@ -48,9 +48,9 @@ public class LocalizationTest extends OpMode {
     private Telemetry telemetryA;
 
     private DcMotorEx leftFront;
-    private DcMotorEx leftRear;
+    private DcMotorEx leftBack;
     private DcMotorEx rightFront;
-    private DcMotorEx rightRear;
+    private DcMotorEx rightBack;
     private List<DcMotorEx> motors;
 
     /**
@@ -64,15 +64,15 @@ public class LocalizationTest extends OpMode {
         dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
 
         leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
-        rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
+        leftBack = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
+        rightBack = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
         rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
         leftFront.setDirection(leftFrontMotorDirection);
-        leftRear.setDirection(leftRearMotorDirection);
+        leftBack.setDirection(leftRearMotorDirection);
         rightFront.setDirection(rightFrontMotorDirection);
-        rightRear.setDirection(rightRearMotorDirection);
+        rightBack.setDirection(rightRearMotorDirection);
 
-        motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
+        motors = Arrays.asList(leftFront, leftBack, rightFront, rightBack);
 
         for (DcMotorEx motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
@@ -103,8 +103,8 @@ public class LocalizationTest extends OpMode {
         dashboardPoseTracker.update();
 
         double y = -gamepad1.left_stick_y; // Remember, this is reversed!
-        double x = gamepad1.left_stick_x; // this is strafing
-        double rx = gamepad1.right_stick_x;
+        double x = -gamepad1.left_stick_x; // this is strafing
+        double rx = -gamepad1.right_stick_x;
 
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio, but only when
@@ -115,10 +115,11 @@ public class LocalizationTest extends OpMode {
         double rightFrontPower = (y - x - rx) / denominator;
         double rightRearPower = (y + x - rx) / denominator;
 
+
         leftFront.setPower(leftFrontPower);
-        leftRear.setPower(leftRearPower);
+        leftBack.setPower(leftRearPower);
         rightFront.setPower(rightFrontPower);
-        rightRear.setPower(rightRearPower);
+        rightBack.setPower(rightRearPower);
 
         telemetryA.addData("x", poseUpdater.getPose().getX());
         telemetryA.addData("y", poseUpdater.getPose().getY());
